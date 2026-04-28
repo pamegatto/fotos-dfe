@@ -1,4 +1,4 @@
-const URL = "https://teachablemachine.withgoogle.com/models/[TU_ID]/"; // Reemplaza con tu link
+const URL = "https://teachablemachine.withgoogle.com/models/GkYYdDd1A/"; // Reemplaza con tu link
 
 let model, webcam, labelContainer, maxPredictions;
 
