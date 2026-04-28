@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mi Proyecto de ML</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; background: #f4f4f9; }
+        #webcam-container { margin: 20px auto; border: 5px solid #333; width: max-content; }
+        #label-container { font-size: 24px; font-weight: bold; color: #4a90e2; }
+    </style>
+</head>
+<body>
+    <h1>Detector de [Tu Proyecto]</h1>
+    <button type="button" onclick="init()">Comenzar</button>
+    <div id="webcam-container"></div>
+    <div id="label-container"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+    
+    <script src="script.js"></script>
+</body>
+</html>
