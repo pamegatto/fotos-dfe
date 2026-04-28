@@ -2,18 +2,99 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>fdr</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clasificador IA - FDR</title>
     <style>
-        body { font-family: sans-serif; text-align: center; background: #f4f4f9; }
-        #webcam-container { margin: 20px auto; border: 5px solid #333; width: max-content; }
-        #label-container { font-size: 24px; font-weight: bold; color: #4a90e2; }
+        :root {
+            --primary: #2563eb;
+            --bg: #f8fafc;
+            --text: #1e293b;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+            margin: 0;
+        }
+
+        h1 { color: var(--primary); margin-bottom: 10px; }
+
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+
+        p { line-height: 1.5; color: #64748b; }
+
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            background-color: #1d4ed8;
+        }
+
+        #webcam-container {
+            margin: 20px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            background: #e2e8f0; /* Color de fondo antes de que cargue la cámara */
+            min-height: 200px;
+            align-items: center;
+        }
+
+        #label-container {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        #label-container div {
+            background: #f1f5f9;
+            padding: 10px;
+            border-radius: 6px;
+            font-weight: 500;
+            border-left: 4px solid var(--primary);
+        }
     </style>
 </head>
 <body>
-    <h1>Detector de fdr</h1>
-    <button type="button" onclick="init()">Comenzar</button>
-    <div id="webcam-container"></div>
-    <div id="label-container"></div>
+
+    <div class="card">
+        <h1>Detector FDR</h1>
+        <p>Este sistema utiliza visión artificial para clasificar objetos en tiempo real. Hacé clic en el botón para iniciar la cámara.</p>
+        
+        <button type="button" onclick="init()">Comenzar Detección</button>
+        
+        <div id="webcam-container">
+            <span style="color: #94a3b8;">La cámara aparecerá aquí</span>
+        </div>
+        
+        <div id="label-container"></div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
