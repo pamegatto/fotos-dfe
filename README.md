@@ -1,9 +1,9 @@
-# [Nombre de tu Proyecto de Clasificación] 🤖
+# Clasificador de Fotos de recitales según el fotografo que capturó el momento 🤖
 
-Este proyecto utiliza **Machine Learning** para [explicar qué hace: ej. clasificar componentes electrónicos, identificar materiales reciclables o reconocer lenguaje de señas] mediante una interfaz web accesible y en tiempo real.
+Este proyecto utiliza **Machine Learning** para reconocer fotos de recitales tomadas por distintos fotografos argnetinos que se especializan en retratar artistas en shows en vivos y reconocer su obra segun el enfoque, uso de luz, juego de contrastes y muchos otros aspectos que a simple vista no notamos, pero que ellos desde su subjetividad son capaces de repetir infinitas veces. Este modelo no va hacer público el dataset con que ha sido alimentado a fin de mantener la obra de los artistas al resguardo, 
 
 ## 🚀 Propósito y Visión
-Este desarrollo nace de la necesidad de [explicar brevemente el porqué: ej. facilitar la clasificación de hardware antiguo en entornos educativos]. El objetivo es demostrar cómo la inteligencia artificial puede ser democratizada e integrada en soluciones rápidas (Low-Code) sin sacrificar la funcionalidad.
+Este desarrollo nace de querer demostrar que los modelos de machine learning son capaces de diferenciar subjetividades y abstracciones segun grupos de personas.
 
 ## 🛠️ Tecnologías Utilizadas
 * **Teachable Machine (Google):** Entrenamiento del modelo de Deep Learning.
@@ -12,14 +12,9 @@ Este desarrollo nace de la necesidad de [explicar brevemente el porqué: ej. fac
 * **HTML5 / CSS3:** Interfaz de usuario.
 
 ## 📊 El Modelo
-El modelo fue entrenado con un dataset de aproximadamente **[X cantidad]** imágenes distribuidas en **[X cantidad]** clases:
-1. **Clase A:** [Ej. Placas de red]
-2. **Clase B:** [Ej. Memorias RAM]
+El modelo fue entrenado con un dataset de aproximadamente **180** imágenes distribuidas en **2** clases:
+1. **Fotográfo A:** Recitales
+2. **Fotográfo B** Recitales
 3. ...
 
 Se priorizó la diversidad en la captura de datos para reducir sesgos y asegurar que el modelo funcione bajo diferentes condiciones de iluminación.
-
-## ⚙️ Cómo ejecutarlo localmente
-1. Clona este repositorio:
-   ```bash
-   git clone [https://github.com/](https://github.com/)[Tu-Usuario]/[Nombre-Del-Repo].git
