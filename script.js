@@ -10,9 +10,6 @@ async function loadModel() {
         maxPredictions = model.getTotalClasses();
         
         labelContainer = document.getElementById("label-container");
-        for (let i = 0; i < maxPredictions; i++) {
-            labelContainer.appendChild(document.createElement("div"));
-        }
     } catch (error) {
         console.error("Error loading model:", error);
         alert("Error al cargar el modelo. Asegúrate de estar en un servidor HTTPS.");
@@ -45,10 +42,49 @@ async function predict(imageElement) {
     
     const prediction = await model.predict(imageElement);
     
+    // Limpiar contenedor
+    labelContainer.innerHTML = '';
+    
+    // Crear elemento para cada predicción
     for (let i = 0; i < maxPredictions; i++) {
-        const classPrediction =
-            prediction[i].className + ": " + (prediction[i].probability * 100).toFixed(0) + "%";
-        labelContainer.childNodes[i].innerHTML = classPrediction;
+        const percentage = (prediction[i].probability * 100).toFixed(0);
+        const className = prediction[i].className;
+        
+        // Crear estructura HTML
+        const itemDiv = document.createElement("div");
+        itemDiv.className = "prediction-item";
+        
+        const labelDiv = document.createElement("div");
+        labelDiv.className = "prediction-label";
+        
+        const nameSpan = document.createElement("span");
+        nameSpan.className = "prediction-name";
+        nameSpan.textContent = className;
+        
+        const percentageSpan = document.createElement("span");
+        percentageSpan.className = "prediction-percentage";
+        percentageSpan.textContent = percentage + "%";
+        
+        labelDiv.appendChild(nameSpan);
+        labelDiv.appendChild(percentageSpan);
+        
+        const barContainer = document.createElement("div");
+        barContainer.className = "prediction-bar-container";
+        
+        const bar = document.createElement("div");
+        bar.className = "prediction-bar";
+        
+        barContainer.appendChild(bar);
+        
+        itemDiv.appendChild(labelDiv);
+        itemDiv.appendChild(barContainer);
+        
+        labelContainer.appendChild(itemDiv);
+        
+        // Animar la barra después de un pequeño delay
+        setTimeout(() => {
+            bar.style.width = percentage + "%";
+        }, 100 + (i * 150));
     }
 }
 
