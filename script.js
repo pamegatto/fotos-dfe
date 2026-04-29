@@ -1,4 +1,4 @@
-const URL = "https://teachablemachine.withgoogle.com/models/GkYYdDd1A/"; // Reemplaza con tu link
+const URL = "https://teachablemachine.withgoogle.com/models/GkYYdDd1A/"; 
 
 let model, webcam, labelContainer, maxPredictions;
 
@@ -17,9 +17,14 @@ async function init() {
     await webcam.play();
     window.requestAnimationFrame(loop);
 
-    // Agregar webcam al DOM
-    document.getElementById("webcam-container").appendChild(webcam.canvas);
+    // --- MEJORA AQUÍ ---
+    const container = document.getElementById("webcam-container");
+    container.innerHTML = ""; // Esto limpia el texto "La cámara aparecerá aquí"
+    container.appendChild(webcam.canvas);
+    // -------------------
+
     labelContainer = document.getElementById("label-container");
+    labelContainer.innerHTML = ""; // Limpia por si acaso se toca el botón dos veces
     for (let i = 0; i < maxPredictions; i++) {
         labelContainer.appendChild(document.createElement("div"));
     }
