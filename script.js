@@ -39,13 +39,27 @@ async function handleImage(event) {
 }
 
 async function predict(imageElement) {
-    if (!model) await loadModel(); // Asegura que el modelo esté cargado
+    if (!model) await loadModel();
 
     const prediction = await model.predict(imageElement);
+    labelContainer.innerHTML = ""; // Limpiamos para redibujar
+
     for (let i = 0; i < maxPredictions; i++) {
-        const classPrediction =
-            prediction[i].className + ": " + (prediction[i].probability * 100).toFixed(0) + "%";
-        labelContainer.childNodes[i].innerHTML = classPrediction;
+        const percentage = (prediction[i].probability * 100).toFixed(0);
+        
+        // Creamos una estructura visual con barra de progreso
+        const item = document.createElement("div");
+        item.className = "prediction-item-container"; // Puedes agregar estilos si quieres
+        item.innerHTML = `
+            <div class="prediction-item">
+                <span>${prediction[i].className}</span>
+                <span>${percentage}%</span>
+            </div>
+            <div class="prediction-bar">
+                <div class="prediction-progress" style="width: ${percentage}%"></div>
+            </div>
+        `;
+        labelContainer.appendChild(item);
     }
 }
 
