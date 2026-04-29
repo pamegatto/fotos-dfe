@@ -37,31 +37,16 @@ async function handleImage(event) {
     }
     reader.readAsDataURL(file);
 }
+
 async function predict(imageElement) {
-    if (!model) await loadModel();
+    if (!model) await loadModel(); // Asegura que el modelo esté cargado
 
     const prediction = await model.predict(imageElement);
-    
-    // Limpiamos el contenedor
-    labelContainer.innerHTML = "<h3>Autores Identificados:</h3>"; 
-
-    // NO usamos .sort(), así se mantiene el orden de las clases de Teachable Machine
-    prediction.forEach(p => {
-        const percentage = (p.probability * 100).toFixed(0);
-        
-        const item = document.createElement("div");
-        item.style.marginBottom = "15px";
-        item.innerHTML = `
-            <div class="prediction-item">
-                <span style="font-weight: bold;">${p.className}</span>
-                <span>${percentage}%</span>
-            </div>
-            <div class="prediction-bar">
-                <div class="prediction-progress" style="width: ${percentage}%; background: #6366f1"></div>
-            </div>
-        `;
-        labelContainer.appendChild(item);
-    });
+    for (let i = 0; i < maxPredictions; i++) {
+        const classPrediction =
+            prediction[i].className + ": " + (prediction[i].probability * 100).toFixed(0) + "%";
+        labelContainer.childNodes[i].innerHTML = classPrediction;
+    }
 }
 
 // Cargar el modelo apenas carga la web
