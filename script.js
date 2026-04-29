@@ -42,12 +42,10 @@ async function predict(imageElement) {
 
     const prediction = await model.predict(imageElement);
     
-    // Limpiamos el contenedor para mostrar los nuevos resultados
-    labelContainer.innerHTML = "<h3>Resultados del Reconocimiento:</h3>"; 
+    // Limpiamos el contenedor
+    labelContainer.innerHTML = "<h3>Autores Identificados:</h3>"; 
 
-    // Ordenamos las predicciones para que el autor con más probabilidad aparezca arriba
-    prediction.sort((a, b) => b.probability - a.probability);
-
+    // NO usamos .sort(), así se mantiene el orden de las clases de Teachable Machine
     prediction.forEach(p => {
         const percentage = (p.probability * 100).toFixed(0);
         
@@ -59,13 +57,12 @@ async function predict(imageElement) {
                 <span>${percentage}%</span>
             </div>
             <div class="prediction-bar">
-                <div class="prediction-progress" style="width: ${percentage}%; background: ${percentage > 50 ? '#6366f1' : '#cbd5e1'}"></div>
+                <div class="prediction-progress" style="width: ${percentage}%; background: #6366f1"></div>
             </div>
         `;
         labelContainer.appendChild(item);
     });
 }
-
 
 // Cargar el modelo apenas carga la web
 loadModel();
