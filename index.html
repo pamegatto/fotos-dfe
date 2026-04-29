@@ -60,7 +60,7 @@
             overflow: hidden;
             display: flex;
             justify-content: center;
-            background: #e2e8f0; /* Color de fondo antes de que cargue la cámara */
+            background: #e2e8f0;
             min-height: 200px;
             align-items: center;
         }
@@ -84,13 +84,15 @@
 <body>
 
     <div class="card">
-        <h1>Detector FDR</h1>
-        <p>Este sistema utiliza visión artificial para clasificar objetos en tiempo real. Hacé clic en el botón para iniciar la cámara.</p>
+        <h1>Clasificador de Documentos FDR</h1>
+        <p>Subí una foto o imagen de tu documento para que la IA lo identifique.</p>
         
-        <button type="button" onclick="init()">Comenzar Detección</button>
+        <input type="file" id="file-input" accept="image/*" style="display:none;" onchange="handleImage(event)">
+        <button type="button" onclick="document.getElementById('file-input').click()">Seleccionar Documento</button>
         
         <div id="webcam-container">
-            <span style="color: #94a3b8;">La cámara aparecerá aquí</span>
+            <img id="document-preview" style="max-width: 100%; display: none; border-radius: 8px;">
+            <span id="placeholder-text" style="color: #94a3b8;">El documento aparecerá aquí</span>
         </div>
         
         <div id="label-container"></div>
