@@ -3,81 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clasificador IA - FDR</title>
+    <title>IA Document Classifier | FDR</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
     <style>
         :root {
-            --primary: #2563eb;
-            --bg: #f8fafc;
-            --text: #1e293b;
+            --primary: #6366f1;
+            --secondary: #a855f7;
+            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --glass-bg: rgba(255, 255, 255, 0.9);
+            --text-main: #1e293b;
+            --text-sub: #475569;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            color: var(--text-main);
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            padding: 40px 20px;
+            min-height: 100vh;
             margin: 0;
+            padding: 20px;
         }
-
-        h1 { color: var(--primary); margin-bottom: 10px; }
 
         .card {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            max-width: 500px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            padding: 2.5rem;
+            border-radius: 24px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+            max-width: 450px;
             width: 100%;
             text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
-        p { line-height: 1.5; color: #64748b; }
+        h1 { 
+            font-weight: 800;
+            font-size: 1.8rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        p { 
+            font-size: 0.95rem;
+            color: var(--text-sub);
+            margin-bottom: 1.5rem;
+            font-weight: 400;
+        }
+
+        .upload-area {
+            margin: 1.5rem 0;
+            border: 2px dashed #cbd5e1;
+            border-radius: 16px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            background: rgba(248, 250, 252, 0.5);
+            cursor: pointer;
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary);
+            background: rgba(248, 250, 252, 1);
+        }
 
         button {
-            background-color: var(--primary);
+            background: linear-gradient(to right, var(--primary), var(--secondary));
             color: white;
             border: none;
             padding: 14px 28px;
-            border-radius: 8px;
+            border-radius: 12px;
             font-size: 1rem;
-            font-weight: bold;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
-            margin-top: 10px;
+            box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.4);
+            transition: all 0.3s ease;
+            width: 100%;
         }
 
         button:hover {
-            transform: scale(1.05);
-            background-color: #1d4ed8;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.5);
         }
 
-        #webcam-container {
-            margin: 20px 0;
+        #document-preview {
+            max-width: 100%;
             border-radius: 12px;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            background: #e2e8f0;
-            min-height: 200px;
-            align-items: center;
+            margin-top: 10px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
         }
 
         #label-container {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-top: 15px;
+            margin-top: 20px;
+            text-align: left;
         }
 
-        #label-container div {
-            background: #f1f5f9;
-            padding: 10px;
-            border-radius: 6px;
-            font-weight: 500;
-            border-left: 4px solid var(--primary);
+        .prediction-item {
+            background: white;
+            padding: 12px 16px;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            border: 1px solid #f1f5f9;
+        }
+
+        .prediction-bar {
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            margin-top: 4px;
+            overflow: hidden;
+        }
+
+        .prediction-progress {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.5s ease;
         }
     </style>
 </head>
@@ -85,22 +135,25 @@
 
     <div class="card">
         <h1>Clasificador de Documentos FDR</h1>
-        <p>Subí una foto para que la IA identifique su autor.</p>
+        <p>Subí una foto para que la IA identifique su autor..</p>
         
         <input type="file" id="file-input" accept="image/*" style="display:none;" onchange="handleImage(event)">
-        <button type="button" onclick="document.getElementById('file-input').click()">Seleccionar Documento</button>
         
-        <div id="webcam-container">
-            <img id="document-preview" style="max-width: 100%; display: none; border-radius: 8px;">
-            <span id="placeholder-text" style="color: #94a3b8;">El documento aparecerá aquí</span>
+        <div class="upload-area" onclick="document.getElementById('file-input').click()">
+            <img id="document-preview" style="display: none;">
+            <div id="placeholder-content">
+                <div style="font-size: 2rem; margin-bottom: 10px;">📄</div>
+                <span style="color: #64748b; font-weight: 500;">Haz clic para subir un archivo</span>
+            </div>
         </div>
+        
+        <button type="button" onclick="document.getElementById('file-input').click()">Seleccionar Documento</button>
         
         <div id="label-container"></div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
-    
     <script src="script.js"></script>
 </body>
 </html>
