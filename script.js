@@ -37,31 +37,35 @@ async function handleImage(event) {
     }
     reader.readAsDataURL(file);
 }
-
 async function predict(imageElement) {
     if (!model) await loadModel();
 
     const prediction = await model.predict(imageElement);
-    labelContainer.innerHTML = ""; // Limpiamos para redibujar
+    
+    // Limpiamos el contenedor para mostrar los nuevos resultados
+    labelContainer.innerHTML = "<h3>Resultados del Reconocimiento:</h3>"; 
 
-    for (let i = 0; i < maxPredictions; i++) {
-        const percentage = (prediction[i].probability * 100).toFixed(0);
+    // Ordenamos las predicciones para que el autor con más probabilidad aparezca arriba
+    prediction.sort((a, b) => b.probability - a.probability);
+
+    prediction.forEach(p => {
+        const percentage = (p.probability * 100).toFixed(0);
         
-        // Creamos una estructura visual con barra de progreso
         const item = document.createElement("div");
-        item.className = "prediction-item-container"; // Puedes agregar estilos si quieres
+        item.style.marginBottom = "15px";
         item.innerHTML = `
             <div class="prediction-item">
-                <span>${prediction[i].className}</span>
+                <span style="font-weight: bold;">${p.className}</span>
                 <span>${percentage}%</span>
             </div>
             <div class="prediction-bar">
-                <div class="prediction-progress" style="width: ${percentage}%"></div>
+                <div class="prediction-progress" style="width: ${percentage}%; background: ${percentage > 50 ? '#6366f1' : '#cbd5e1'}"></div>
             </div>
         `;
         labelContainer.appendChild(item);
-    }
+    });
 }
+
 
 // Cargar el modelo apenas carga la web
 loadModel();
