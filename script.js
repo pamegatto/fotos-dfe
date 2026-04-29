@@ -1,17 +1,21 @@
-const URL = "https://teachablemachine.withgoogle.com/models/GkYYdDd1A";
-
+const URL = "https://teachablemachine.withgoogle.com/models/GkYYdDd1A/";
 let model, labelContainer, maxPredictions;
 
 // Cargamos el modelo al abrir la página
 async function loadModel() {
-    const modelURL = URL + "model.json";
-    const metadataURL = URL + "metadata.json";
-    model = await tmImage.load(modelURL, metadataURL);
-    maxPredictions = model.getTotalClasses();
-    
-    labelContainer = document.getElementById("label-container");
-    for (let i = 0; i < maxPredictions; i++) {
-        labelContainer.appendChild(document.createElement("div"));
+    try {
+        const modelURL = URL + "model.json";
+        const metadataURL = URL + "metadata.json";
+        model = await tmImage.load(modelURL, metadataURL);
+        maxPredictions = model.getTotalClasses();
+        
+        labelContainer = document.getElementById("label-container");
+        for (let i = 0; i < maxPredictions; i++) {
+            labelContainer.appendChild(document.createElement("div"));
+        }
+    } catch (error) {
+        console.error("Error loading model:", error);
+        alert("Error al cargar el modelo. Asegúrate de estar en un servidor HTTPS.");
     }
 }
 
@@ -19,16 +23,14 @@ async function loadModel() {
 async function handleImage(event) {
     const file = event.target.files[0];
     if (!file) return;
-
+    
     const imgElement = document.getElementById("document-preview");
-    const placeholder = document.getElementById("placeholder-text");
-
+    
     // Mostrar la imagen en pantalla
     const reader = new FileReader();
     reader.onload = async function(e) {
         imgElement.src = e.target.result;
         imgElement.style.display = "block";
-        placeholder.style.display = "none";
         
         // Esperar a que la imagen cargue para predecir
         imgElement.onload = async () => {
@@ -40,8 +42,9 @@ async function handleImage(event) {
 
 async function predict(imageElement) {
     if (!model) await loadModel(); // Asegura que el modelo esté cargado
-
+    
     const prediction = await model.predict(imageElement);
+    
     for (let i = 0; i < maxPredictions; i++) {
         const classPrediction =
             prediction[i].className + ": " + (prediction[i].probability * 100).toFixed(0) + "%";
